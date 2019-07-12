@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Finance Cracker Retrospective</string>
+
+    <string name="add_wallet">Добавить новый кошелек</string>
 </resources>

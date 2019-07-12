@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -22,6 +21,17 @@ android {
     }
 }
 
+ext {
+    dagger = '2.21'
+    daggerAndroid = '2.21'
+    material = '1.0.0'
+    retrofit = '2.5.0'
+    gson = '2.5.0'
+    room = '2.1.0'
+    adapterdelegates = '4.0.0'
+    arch = '2.0.0'
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -31,4 +41,23 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    kapt "com.google.dagger:dagger-compiler:$dagger"
+    kapt "com.google.dagger:dagger-android-processor:$daggerAndroid"
+    implementation "com.google.dagger:dagger:$dagger"
+    implementation "com.google.dagger:dagger-android:$daggerAndroid"
+    implementation "com.google.dagger:dagger-android-support:$daggerAndroid"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$gson"
+
+    implementation "com.google.android.material:material:$material"
+
+    implementation "androidx.room:room-runtime:$room"
+    implementation "androidx.room:room-ktx:$room"
+    kapt "androidx.room:room-compiler:$room"
+
+    implementation "com.hannesdorfmann:adapterdelegates4:$adapterdelegates"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$arch"
 }

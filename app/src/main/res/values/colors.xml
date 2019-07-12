@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#540099</color>
+    <color name="colorPrimaryDark">#380066</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="background_gradient_start">#069fce</color>
+    <color name="background_gradient_end">#51cbbf</color>
+
+    <color name="wallet_background">@color/colorPrimaryDark</color>
+    <color name="wallet_add_wallet_background">#DC6141</color>
+    <color name="wallet_add_wallet_icon">#9fff</color>
 </resources>
