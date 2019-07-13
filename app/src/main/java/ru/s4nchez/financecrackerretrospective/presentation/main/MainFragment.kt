@@ -11,14 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.screen_main.*
 import ru.s4nchez.financecrackerretrospective.MyApp
 import ru.s4nchez.financecrackerretrospective.R
+import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.ClickListener
 import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.DiffAdapter
+import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.ListItem
 import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate.AddWalletDelegate
 import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate.WalletDelegate
 import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.WalletViewModel
 import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.WalletViewModelFactory
+import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.WalletCreationFragment
 import javax.inject.Inject
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), ClickListener {
 
     @Inject
     lateinit var walletViewModelFactory: WalletViewModelFactory
@@ -27,8 +30,8 @@ class MainFragment : Fragment() {
 
     private val adapter by lazy {
         DiffAdapter(listOf(
-                WalletDelegate(),
-                AddWalletDelegate()
+                WalletDelegate(this),
+                AddWalletDelegate(this)
         ))
     }
 
@@ -57,5 +60,23 @@ class MainFragment : Fragment() {
     override fun onDestroy() {
         (activity?.application as MyApp).componentManager.destroyFinanceComponent()
         super.onDestroy()
+    }
+
+    override fun onClick(listItem: ListItem, tag: String?) {
+        when (listItem) {
+            is WalletDelegate.Model -> openWalletScreen()
+            is AddWalletDelegate.Model -> openWalletCreationScreen()
+        }
+    }
+
+    private fun openWalletScreen() {
+        // stub
+    }
+
+    private fun openWalletCreationScreen() {
+        fragmentManager?.beginTransaction()
+                ?.replace(R.id.container, WalletCreationFragment.newInstance())
+                ?.addToBackStack(null)
+                ?.commit()
     }
 }

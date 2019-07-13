@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">Finance Cracker Retrospective</string>
-
     <string name="add_wallet">Добавить новый кошелек</string>
+    <string name="enter_wallet_name_hint">Введите название кошелька</string>
+    <string name="save">Сохранить</string>
+    <string name="choose_currency">Выберите валюту</string>
+
+    <string name="currency_name_rub">Рубль</string>
+    <string name="currency_name_eur">Евро</string>
+    <string name="currency_name_usd">Доллар</string>
+    <string name="currency_symbol_format_rub">%1$s ₽</string>
+    <string name="currency_symbol_format_eur">€ %1$s</string>
+    <string name="currency_symbol_format_usd">$%1$s</string>
+
+    <string name="wallet_creation_error">Заполните поля</string>
 </resources>

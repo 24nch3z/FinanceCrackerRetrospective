@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:layout_margin="16dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="@color/wallet_background"
     app:cardCornerRadius="@dimen/wallet_radius"
     app:contentPadding="16dp"
-    tools:ignore="SpUsage">
+    tools:ignore="KeyboardInaccessibleWidget,SpUsage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
