@@ -18,7 +18,7 @@ class WalletCreationViewModel(private val financeInteractor: FinanceInteractor) 
     }
 
     fun getWallet(id: Long) {
-        walletLiveData.value = financeInteractor.getWallet(id).value
+        walletLiveData.value = financeInteractor.getWallet(id).value ?: Wallet.empty()
     }
 
     fun saveWallet(id: Long, name: String, currency: String?) {

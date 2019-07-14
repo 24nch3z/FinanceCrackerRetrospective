@@ -60,8 +60,10 @@ class WalletCreationFragment : Fragment(), WalletCreationView {
             viewModel.getWallet(walletId)
         }
 
-        currencyAdapter.setRadioGroup(radio_group)
-        currencyAdapter.render(CurrencyStore.getNamesMap())
+        if (walletId == Wallet.NEW_WALLET_ID) {
+            currencyAdapter.setRadioGroup(radio_group)
+            currencyAdapter.render(CurrencyStore.getNamesMap())
+        }
 
         viewModel.walletLiveData.observe(this, Observer {
             wallet_name_input.setText(it.name)
@@ -72,7 +74,7 @@ class WalletCreationFragment : Fragment(), WalletCreationView {
             viewModel.saveWallet(
                     id = walletId,
                     name = wallet_name_input.text.toString(),
-                    currency = currencyAdapter.getCurrency() ?: "RUB"
+                    currency = currencyAdapter.getCurrency()
             )
         }
 
@@ -83,6 +85,6 @@ class WalletCreationFragment : Fragment(), WalletCreationView {
     }
 
     override fun closeScreen() {
-        fragmentManager?.popBackStack()
+        fragmentManager?.popBackStack() // TODO: Открывать экран кошелька
     }
 }

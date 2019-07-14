@@ -1,8 +1,10 @@
 package ru.s4nchez.financecrackerretrospective.data.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+@Entity(tableName = "Wallet")
 data class Wallet(
 
         @PrimaryKey(autoGenerate = true)

@@ -2,6 +2,9 @@ package ru.s4nchez.financecrackerretrospective.di.finance
 
 import dagger.Module
 import dagger.Provides
+import ru.s4nchez.financecrackerretrospective.data.AppDatabase
+import ru.s4nchez.financecrackerretrospective.data.repository.FinanceRepository
+import ru.s4nchez.financecrackerretrospective.data.repository.FinanceRepositoryImpl
 import ru.s4nchez.financecrackerretrospective.di.FeatureScope
 import ru.s4nchez.financecrackerretrospective.domain.FinanceInteractor
 import ru.s4nchez.financecrackerretrospective.domain.FinanceInteractorImpl
@@ -13,8 +16,14 @@ class FinanceModule {
 
     @FeatureScope
     @Provides
-    fun provideFinanceInteractor(): FinanceInteractor {
-        return FinanceInteractorImpl()
+    fun provideFinanceRepository(appDatabase: AppDatabase): FinanceRepository {
+        return FinanceRepositoryImpl(appDatabase)
+    }
+
+    @FeatureScope
+    @Provides
+    fun provideFinanceInteractor(financeRepository: FinanceRepository): FinanceInteractor {
+        return FinanceInteractorImpl(financeRepository)
     }
 
     @Provides
