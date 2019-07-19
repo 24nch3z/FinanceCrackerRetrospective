@@ -4,11 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import ru.s4nchez.financecrackerretrospective.domain.FinanceInteractor
+import ru.s4nchez.financecrackerretrospective.presentation.common.WalletCreationScreen
 import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.ListItem
 import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate.AddWalletDelegate
 import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate.WalletDelegate
+import ru.terrakok.cicerone.Router
 
-class WalletViewModel(financeInteractor: FinanceInteractor) : ViewModel() {
+class WalletViewModel(
+        financeInteractor: FinanceInteractor,
+        private val router: Router
+) : ViewModel() {
 
     val items: LiveData<List<ListItem>> = Transformations.map(financeInteractor.getWallets()) {
         val list: MutableList<ListItem> = it.map { wallet ->
@@ -16,5 +21,13 @@ class WalletViewModel(financeInteractor: FinanceInteractor) : ViewModel() {
         }.toMutableList()
         list.add(AddWalletDelegate.Model())
         list
+    }
+
+    fun openWalletScreen() {
+
+    }
+
+    fun openWalletCreationScreen() {
+        router.navigateTo(WalletCreationScreen())
     }
 }

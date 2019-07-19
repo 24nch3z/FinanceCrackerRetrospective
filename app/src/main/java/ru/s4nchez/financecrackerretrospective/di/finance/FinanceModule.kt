@@ -8,8 +8,10 @@ import ru.s4nchez.financecrackerretrospective.data.repository.FinanceRepositoryI
 import ru.s4nchez.financecrackerretrospective.di.FeatureScope
 import ru.s4nchez.financecrackerretrospective.domain.FinanceInteractor
 import ru.s4nchez.financecrackerretrospective.domain.FinanceInteractorImpl
+import ru.s4nchez.financecrackerretrospective.executor.Executor
 import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.WalletViewModelFactory
 import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.viewmodel.WalletCreationViewModelFactory
+import ru.terrakok.cicerone.Router
 
 @Module
 class FinanceModule {
@@ -22,19 +24,21 @@ class FinanceModule {
 
     @FeatureScope
     @Provides
-    fun provideFinanceInteractor(financeRepository: FinanceRepository): FinanceInteractor {
-        return FinanceInteractorImpl(financeRepository)
+    fun provideFinanceInteractor(financeRepository: FinanceRepository, executor: Executor): FinanceInteractor {
+        return FinanceInteractorImpl(financeRepository, executor)
     }
 
     @Provides
     fun provideWalletViewModelFactory(
-            financeInteractor: FinanceInteractor): WalletViewModelFactory {
-        return WalletViewModelFactory(financeInteractor)
+            financeInteractor: FinanceInteractor,
+            router: Router): WalletViewModelFactory {
+        return WalletViewModelFactory(financeInteractor, router)
     }
 
     @Provides
     fun provideWalletCreationViewModelFactory(
-            financeInteractor: FinanceInteractor): WalletCreationViewModelFactory {
-        return WalletCreationViewModelFactory(financeInteractor)
+            financeInteractor: FinanceInteractor,
+            router: Router): WalletCreationViewModelFactory {
+        return WalletCreationViewModelFactory(financeInteractor, router)
     }
 }

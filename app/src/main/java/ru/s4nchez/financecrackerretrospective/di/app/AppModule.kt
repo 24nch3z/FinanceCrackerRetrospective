@@ -5,10 +5,12 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import ru.s4nchez.financecrackerretrospective.data.AppDatabase
+import ru.s4nchez.financecrackerretrospective.executor.Executor
+import ru.terrakok.cicerone.Router
 import javax.inject.Singleton
 
 @Module
-class AppModule(private val context: Context) {
+class AppModule(private val context: Context, private val router: Router) {
 
     @Provides
     @Singleton
@@ -20,7 +22,18 @@ class AppModule(private val context: Context) {
     @Singleton
     fun provideDatabase(): AppDatabase {
         return Room.databaseBuilder(context, AppDatabase::class.java, "database")
-                .allowMainThreadQueries() // TODO: Убрать
                 .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideExecutor(): Executor {
+        return Executor()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRouter(): Router {
+        return router
     }
 }

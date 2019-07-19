@@ -9,17 +9,19 @@ data class Wallet(
 
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id")
-        val id: Long = NEW_WALLET_ID,
+        val id: Long?,
 
         @ColumnInfo(name = "name")
         val name: String,
 
         @ColumnInfo(name = "currency")
-        val currency: String
+        val currency: String,
+
+        @ColumnInfo(name = "balance")
+        val balance: Long
 ) {
 
     companion object {
-        const val NEW_WALLET_ID = -1L
-        fun empty() = Wallet(NEW_WALLET_ID, "", "")
+        fun empty() = Wallet(null, "", "", 0L)
     }
 }

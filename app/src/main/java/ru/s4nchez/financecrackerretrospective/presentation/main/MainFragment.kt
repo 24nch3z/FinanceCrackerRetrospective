@@ -18,7 +18,6 @@ import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate
 import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate.WalletDelegate
 import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.WalletViewModel
 import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.WalletViewModelFactory
-import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.WalletCreationFragment
 import javax.inject.Inject
 
 class MainFragment : Fragment(), ClickListener {
@@ -64,19 +63,8 @@ class MainFragment : Fragment(), ClickListener {
 
     override fun onClick(listItem: ListItem, tag: String?) {
         when (listItem) {
-            is WalletDelegate.Model -> openWalletScreen()
-            is AddWalletDelegate.Model -> openWalletCreationScreen()
+            is WalletDelegate.Model -> viewModel.openWalletScreen()
+            is AddWalletDelegate.Model -> viewModel.openWalletCreationScreen()
         }
-    }
-
-    private fun openWalletScreen() {
-        // stub
-    }
-
-    private fun openWalletCreationScreen() {
-        fragmentManager?.beginTransaction()
-                ?.replace(R.id.container, WalletCreationFragment.newInstance())
-                ?.addToBackStack(null)
-                ?.commit()
     }
 }

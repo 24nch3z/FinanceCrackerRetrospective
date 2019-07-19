@@ -6,15 +6,16 @@ import ru.s4nchez.financecrackerretrospective.di.app.AppModule
 import ru.s4nchez.financecrackerretrospective.di.app.DaggerAppComponent
 import ru.s4nchez.financecrackerretrospective.di.finance.FinanceComponent
 import ru.s4nchez.financecrackerretrospective.di.finance.FinanceModule
+import ru.terrakok.cicerone.Router
 
-class ComponentManager(private val context: Context) {
+class ComponentManager(private val context: Context, private val router: Router) {
 
-    private val rootComponent: AppComponent = buildAppComponent()
+    val rootComponent: AppComponent = buildAppComponent()
     private var financeComponent: FinanceComponent? = null
 
     private fun buildAppComponent(): AppComponent {
         return DaggerAppComponent.builder()
-                .appModule(AppModule(context))
+                .appModule(AppModule(context, router))
                 .build()
     }
 

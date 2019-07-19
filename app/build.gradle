@@ -30,6 +30,7 @@ ext {
     room = '2.1.0'
     adapterdelegates = '4.0.0'
     arch = '2.0.0'
+    cicerone = '5.0.0'
 }
 
 dependencies {
@@ -60,4 +61,6 @@ dependencies {
     implementation "com.hannesdorfmann:adapterdelegates4:$adapterdelegates"
 
     implementation "androidx.lifecycle:lifecycle-extensions:$arch"
+
+    implementation "ru.terrakok.cicerone:cicerone:$cicerone"
 }

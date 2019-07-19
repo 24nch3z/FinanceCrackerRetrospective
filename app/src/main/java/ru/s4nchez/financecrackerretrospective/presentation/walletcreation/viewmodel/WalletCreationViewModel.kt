@@ -4,24 +4,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.s4nchez.financecrackerretrospective.data.model.Wallet
 import ru.s4nchez.financecrackerretrospective.domain.FinanceInteractor
-import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.WalletCreationView
+import ru.s4nchez.financecrackerretrospective.utils.SingleLiveEvent
+import ru.terrakok.cicerone.Router
 
-class WalletCreationViewModel(private val financeInteractor: FinanceInteractor) : ViewModel() {
-
-    private var view: WalletCreationView? = null
+class WalletCreationViewModel(
+        private val financeInteractor: FinanceInteractor,
+        private val router: Router
+) : ViewModel() {
 
     val walletLiveData = MutableLiveData<Wallet>()
-    val validationErrorLiveData = MutableLiveData<Boolean>()
+    val validationErrorLiveData = SingleLiveEvent<Boolean>()
 
-    fun bindView(view: WalletCreationView) {
-        this.view = view
+    fun getWallet(id: Long?, mode: Int) {
+        walletLiveData.value = financeInteractor.getWallet(id, mode).value
     }
 
-    fun getWallet(id: Long) {
-        walletLiveData.value = financeInteractor.getWallet(id).value ?: Wallet.empty()
-    }
-
-    fun saveWallet(id: Long, name: String, currency: String?) {
+    fun saveWallet(id: Long?, name: String, currency: String?, mode: Int) {
         if (name.trim().isEmpty()) {
             validationErrorLiveData.value = true
             return
@@ -32,15 +30,14 @@ class WalletCreationViewModel(private val financeInteractor: FinanceInteractor) 
             return
         }
 
-        val wallet = financeInteractor.getWallet(id).value
-        financeInteractor.saveWallet(
-                wallet?.copy(name = name, currency = currency)
-                        ?: Wallet(name = name, currency = currency))
-        view?.closeScreen()
+        val wallet = financeInteractor.getWallet(id, mode).value!!
+        financeInteractor.saveWallet(wallet.copy(name = name, currency = currency), mode)
+
+        router.exit() // TODO: Открывать экран кошелька
     }
 
-    override fun onCleared() {
-        view = null
-        super.onCleared()
-    }
+//    override fun onCleared() { // TODO: Протестить
+//        Log.d("sssss", "")
+//        super.onCleared()
+//    }
 }

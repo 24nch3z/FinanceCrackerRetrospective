@@ -11,28 +11,39 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.screeen_wallet_creation.*
 import ru.s4nchez.financecrackerretrospective.MyApp
 import ru.s4nchez.financecrackerretrospective.R
-import ru.s4nchez.financecrackerretrospective.data.model.Wallet
 import ru.s4nchez.financecrackerretrospective.data.store.CurrencyStore
 import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.adapter.CurrencyAdapter
 import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.viewmodel.WalletCreationViewModel
 import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.viewmodel.WalletCreationViewModelFactory
 import javax.inject.Inject
 
-class WalletCreationFragment : Fragment(), WalletCreationView {
+class WalletCreationFragment : Fragment() {
 
     @Inject
     lateinit var walletCreationViewModelFactory: WalletCreationViewModelFactory
 
-    private var walletId = Wallet.NEW_WALLET_ID
+    private var walletId: Long? = null
+    private var mode = MODE_NEW
     private lateinit var viewModel: WalletCreationViewModel
     private val currencyAdapter by lazy { CurrencyAdapter(context!!) }
 
     companion object {
-        private const val ARG_WALLET_ID = "walletId"
 
-        fun newInstance(walletId: Long = Wallet.NEW_WALLET_ID): WalletCreationFragment {
+        private const val ARG_WALLET_ID = "walletId"
+        private const val ARG_MODE = "mode"
+
+        fun createNewWallet(): WalletCreationFragment {
             return WalletCreationFragment().apply {
                 arguments = Bundle().apply {
+                    putInt(ARG_MODE, MODE_NEW)
+                }
+            }
+        }
+
+        fun updateWallet(walletId: Long): WalletCreationFragment {
+            return WalletCreationFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_MODE, MODE_EDIT)
                     putLong(ARG_WALLET_ID, walletId)
                 }
             }
@@ -42,7 +53,8 @@ class WalletCreationFragment : Fragment(), WalletCreationView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.application as MyApp).componentManager.buildFinanceComponent().inject(this)
-        walletId = arguments?.getLong(ARG_WALLET_ID) ?: Wallet.NEW_WALLET_ID
+        walletId = arguments?.getLong(ARG_WALLET_ID)
+        mode = arguments?.getInt(ARG_MODE) ?: MODE_NEW
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -54,37 +66,37 @@ class WalletCreationFragment : Fragment(), WalletCreationView {
 
         viewModel = ViewModelProviders.of(this, walletCreationViewModelFactory)
                 .get(WalletCreationViewModel::class.java)
-        viewModel.bindView(this)
 
         if (savedInstanceState == null) {
-            viewModel.getWallet(walletId)
+            viewModel.getWallet(walletId, mode)
         }
 
-        if (walletId == Wallet.NEW_WALLET_ID) {
+        if (mode == MODE_NEW) {
             currencyAdapter.setRadioGroup(radio_group)
             currencyAdapter.render(CurrencyStore.getNamesMap())
+            choose_currency_label.visibility = View.VISIBLE
+        } else {
+            viewModel.walletLiveData.observe(this, Observer {
+                wallet_name_input.setText(it.name)
+                currencyAdapter.setCurrency(it.currency)
+            })
+            choose_currency_label.visibility = View.GONE
         }
-
-        viewModel.walletLiveData.observe(this, Observer {
-            wallet_name_input.setText(it.name)
-            currencyAdapter.setCurrency(it.currency)
-        })
 
         save_button.setOnClickListener {
             viewModel.saveWallet(
                     id = walletId,
                     name = wallet_name_input.text.toString(),
-                    currency = currencyAdapter.getCurrency()
+                    currency = currencyAdapter.getCurrency(),
+                    mode = mode
             )
         }
 
         viewModel.validationErrorLiveData.observe(this, Observer {
-            Snackbar.make(activity!!.findViewById(android.R.id.content),
-                    R.string.wallet_creation_error, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(
+                    activity!!.findViewById(android.R.id.content),
+                    R.string.wallet_creation_error, Snackbar.LENGTH_SHORT
+            ).show()
         })
-    }
-
-    override fun closeScreen() {
-        fragmentManager?.popBackStack() // TODO: Открывать экран кошелька
     }
 }

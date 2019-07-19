@@ -27,10 +27,12 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/googlesans_regular"
                     android:hint="@string/enter_wallet_name_hint"
+                    android:maxLength="35"
                     android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                android:id="@+id/choose_currency_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

@@ -17,4 +17,8 @@ class FinanceRepositoryImpl(private val database: AppDatabase) : FinanceReposito
     override fun saveWallet(wallet: Wallet) {
         database.walletDao().insert(wallet)
     }
+
+    override fun updateWallet(wallet: Wallet) {
+        database.walletDao().update(wallet)
+    }
 }
