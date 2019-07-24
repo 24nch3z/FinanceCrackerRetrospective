@@ -18,9 +18,11 @@ import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate
 import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.MainScreenViewModel
 import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.MainScreenViewModelFactory
 import ru.s4nchez.financecrackerretrospective.utils.app
+import ru.s4nchez.financecrackerretrospective.utils.dpToPx
+import ru.s4nchez.financecrackerretrospective.utils.screenWidth
 import javax.inject.Inject
 
-class MainFragment : Fragment(), ClickListener {
+class MainScreenFragment : Fragment(), ClickListener {
 
     @Inject
     lateinit var mainScreenViewModelFactory: MainScreenViewModelFactory
@@ -49,6 +51,7 @@ class MainFragment : Fragment(), ClickListener {
         wallets_recycler_view.layoutManager = LinearLayoutManager(activity,
                 LinearLayoutManager.HORIZONTAL, false)
         wallets_recycler_view.adapter = adapter
+        wallets_recycler_view.addItemDecoration(CardWidthItemDecoration(getCardWidth()))
 
         viewModel = ViewModelProviders.of(this, mainScreenViewModelFactory)
                 .get(MainScreenViewModel::class.java)
@@ -66,5 +69,11 @@ class MainFragment : Fragment(), ClickListener {
             is WalletDelegate.Model -> viewModel.openWalletScreen(listItem.wallet.id!!)
             is AddWalletDelegate.Model -> viewModel.openWalletCreationScreen()
         }
+    }
+
+    private fun getCardWidth(): Int {
+        return screenWidth(activity!!) -
+                dpToPx(activity!!, 16.0f).toInt().times(2) - // Отступы у CardView
+                dpToPx(activity!!, 32.0f).toInt()
     }
 }

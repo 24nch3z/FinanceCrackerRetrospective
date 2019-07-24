@@ -10,7 +10,7 @@
     <color name="background_gradient_end">#55540099</color>
 
     <color name="wallet_background">#FFF</color>
-    <color name="wallet_add_wallet_background">#dc6141</color>
+    <color name="wallet_add_wallet_background">@color/colorPrimary</color>
     <color name="wallet_add_wallet_icon">#9fff</color>
 
     <color name="wallet_screen_delete_icon">#fff</color>
