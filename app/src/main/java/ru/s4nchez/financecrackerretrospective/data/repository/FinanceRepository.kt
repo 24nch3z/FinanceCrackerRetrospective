@@ -8,4 +8,5 @@ interface FinanceRepository {
     fun getWallet(id: Long): LiveData<Wallet>
     fun saveWallet(wallet: Wallet): Long
     fun updateWallet(wallet: Wallet): Long
+    fun deleteWallet(id: Long)
 }

@@ -9,12 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.screen_wallet.*
 import ru.s4nchez.financecrackerretrospective.R
+import ru.s4nchez.financecrackerretrospective.presentation.wallet.dialog.DeleteWalletDialog
 import ru.s4nchez.financecrackerretrospective.presentation.wallet.viewmodel.WalletViewModel
 import ru.s4nchez.financecrackerretrospective.presentation.wallet.viewmodel.WalletViewModelFactory
 import ru.s4nchez.financecrackerretrospective.utils.app
 import javax.inject.Inject
 
-class WalletFragment : Fragment() {
+class WalletFragment : Fragment(), DeleteWalletDialog.DialogListener {
 
     @Inject
     lateinit var walletViewModelFactory: WalletViewModelFactory
@@ -47,12 +48,24 @@ class WalletFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProviders.of(this, walletViewModelFactory)
                 .get(WalletViewModel::class.java)
         viewModel.walletLiveData.observe(this, Observer { wallet ->
             wallet?.let { wallet_title_view.text = it.name }
         })
-        viewModel.getWallet(walletId)
+
         wallet_title_view.isSelected = true
+        delete_wallet_button.setOnClickListener {
+            val dialog = DeleteWalletDialog.newInstance()
+            dialog.setTargetFragment(this, -1)
+            dialog.show(fragmentManager, null)
+        }
+
+        viewModel.getWallet(walletId)
+    }
+
+    override fun onDeleteWalletConfirm() {
+        viewModel.deleteWallet(walletId)
     }
 }

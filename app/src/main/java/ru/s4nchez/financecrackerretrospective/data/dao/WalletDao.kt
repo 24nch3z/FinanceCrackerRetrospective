@@ -13,4 +13,7 @@ interface WalletDao : BaseDao<Wallet> {
 
     @Query("SELECT * FROM Wallet WHERE id=:id")
     fun getById(id: Long): LiveData<Wallet>
+
+    @Query("DELETE FROM Wallet WHERE id = :id")
+    fun deleteById(id: Long)
 }

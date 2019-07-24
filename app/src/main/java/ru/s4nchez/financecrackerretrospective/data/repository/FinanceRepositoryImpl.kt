@@ -22,4 +22,8 @@ class FinanceRepositoryImpl(private val database: AppDatabase) : FinanceReposito
         database.walletDao().update(wallet)
         return wallet.id!!
     }
+
+    override fun deleteWallet(id: Long) {
+        database.walletDao().deleteById(id)
+    }
 }

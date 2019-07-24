@@ -36,4 +36,10 @@ class FinanceInteractorImpl(
         }
         return liveData
     }
+
+    override fun deleteWallet(id: Long) {
+        executor.run {
+            financeRepository.deleteWallet(id)
+        }
+    }
 }

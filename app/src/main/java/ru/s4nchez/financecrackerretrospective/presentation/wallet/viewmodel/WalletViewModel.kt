@@ -21,4 +21,9 @@ class WalletViewModel(
     fun getWallet(id: Long) {
         triggerLiveData.postValue(id)
     }
+
+    fun deleteWallet(id: Long) {
+        financeInteractor.deleteWallet(id)
+        router.exit()
+    }
 }

@@ -8,4 +8,5 @@ interface FinanceInteractor {
     fun getWallet(id: Long): LiveData<Wallet>
     fun getEmptyWallet(): LiveData<Wallet>
     fun saveWallet(wallet: Wallet, mode: Int): LiveData<Long>
+    fun deleteWallet(id: Long)
 }
