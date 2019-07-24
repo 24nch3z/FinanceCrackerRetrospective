@@ -1,9 +1,13 @@
 package ru.s4nchez.financecrackerretrospective.presentation.walletcreation.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import ru.s4nchez.financecrackerretrospective.data.model.Wallet
 import ru.s4nchez.financecrackerretrospective.domain.FinanceInteractor
+import ru.s4nchez.financecrackerretrospective.presentation.common.WalletFragmentScreen
+import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.MODE_EDIT
 import ru.s4nchez.financecrackerretrospective.utils.SingleLiveEvent
 import ru.terrakok.cicerone.Router
 
@@ -15,8 +19,16 @@ class WalletCreationViewModel(
     val walletLiveData = MutableLiveData<Wallet>()
     val validationErrorLiveData = SingleLiveEvent<Boolean>()
 
+    private val triggerSaveWalletCompleteLiveData = MutableLiveData<SaveWalletData>()
+    val saveWalletCompleteLiveData: LiveData<Long> = Transformations.switchMap(triggerSaveWalletCompleteLiveData) {
+        financeInteractor.saveWallet(it.wallet, it.mode)
+    }
+
     fun getWallet(id: Long?, mode: Int) {
-        walletLiveData.value = financeInteractor.getWallet(id, mode).value
+        walletLiveData.value = when (mode) {
+            MODE_EDIT -> financeInteractor.getWallet(id!!).value
+            else -> financeInteractor.getEmptyWallet().value
+        }
     }
 
     fun saveWallet(id: Long?, name: String, currency: String?, mode: Int) {
@@ -30,14 +42,17 @@ class WalletCreationViewModel(
             return
         }
 
-        val wallet = financeInteractor.getWallet(id, mode).value!!
-        financeInteractor.saveWallet(wallet.copy(name = name, currency = currency), mode)
+        val wallet: Wallet = when (mode) {
+            MODE_EDIT -> financeInteractor.getWallet(id!!).value
+            else -> financeInteractor.getEmptyWallet().value
+        }!!
 
-        router.exit() // TODO: Открывать экран кошелька
+        triggerSaveWalletCompleteLiveData.postValue(SaveWalletData(wallet.copy(name = name, currency = currency), mode))
     }
 
-//    override fun onCleared() { // TODO: Протестить
-//        Log.d("sssss", "")
-//        super.onCleared()
-//    }
+    fun openWalletScreen(walletId: Long) {
+        router.replaceScreen(WalletFragmentScreen(walletId))
+    }
+
+    data class SaveWalletData(val wallet: Wallet, val mode: Int)
 }

@@ -9,12 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.screeen_wallet_creation.*
-import ru.s4nchez.financecrackerretrospective.MyApp
 import ru.s4nchez.financecrackerretrospective.R
 import ru.s4nchez.financecrackerretrospective.data.store.CurrencyStore
 import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.adapter.CurrencyAdapter
 import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.viewmodel.WalletCreationViewModel
 import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.viewmodel.WalletCreationViewModelFactory
+import ru.s4nchez.financecrackerretrospective.utils.app
 import javax.inject.Inject
 
 class WalletCreationFragment : Fragment() {
@@ -28,7 +28,6 @@ class WalletCreationFragment : Fragment() {
     private val currencyAdapter by lazy { CurrencyAdapter(context!!) }
 
     companion object {
-
         private const val ARG_WALLET_ID = "walletId"
         private const val ARG_MODE = "mode"
 
@@ -52,7 +51,7 @@ class WalletCreationFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity?.application as MyApp).componentManager.buildFinanceComponent().inject(this)
+        app.componentManager.buildFinanceComponent().inject(this)
         walletId = arguments?.getLong(ARG_WALLET_ID)
         mode = arguments?.getInt(ARG_MODE) ?: MODE_NEW
     }
@@ -97,6 +96,10 @@ class WalletCreationFragment : Fragment() {
                     activity!!.findViewById(android.R.id.content),
                     R.string.wallet_creation_error, Snackbar.LENGTH_SHORT
             ).show()
+        })
+
+        viewModel.saveWalletCompleteLiveData.observe(this, Observer {
+            viewModel.openWalletScreen(it)
         })
     }
 }

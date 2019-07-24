@@ -17,25 +17,23 @@ class FinanceInteractorImpl(
         return financeRepository.getWallets()
     }
 
-    override fun getWallet(id: Long?, mode: Int): LiveData<Wallet> {
-        return when (mode) {
-            MODE_EDIT -> financeRepository.getWallet(id!!)
-            MODE_NEW -> generateNewWallet()
-            else -> generateNewWallet()
-        }
+    override fun getWallet(id: Long): LiveData<Wallet> {
+        return financeRepository.getWallet(id)
     }
 
-    private fun generateNewWallet(): LiveData<Wallet> {
+    override fun getEmptyWallet(): LiveData<Wallet> {
         return MutableLiveData<Wallet>().also { it.value = Wallet.empty() }
     }
 
-    override fun saveWallet(wallet: Wallet, mode: Int) {
+    override fun saveWallet(wallet: Wallet, mode: Int): LiveData<Long> {
+        val liveData = MutableLiveData<Long>()
         executor.run {
             when (mode) {
-                MODE_EDIT -> financeRepository.updateWallet(wallet)
-                MODE_NEW -> financeRepository.saveWallet(wallet)
-                else -> financeRepository.saveWallet(wallet)
+                MODE_EDIT -> liveData.postValue(financeRepository.updateWallet(wallet))
+                MODE_NEW -> liveData.postValue(financeRepository.saveWallet(wallet))
+                else -> liveData.postValue(financeRepository.saveWallet(wallet))
             }
         }
+        return liveData
     }
 }

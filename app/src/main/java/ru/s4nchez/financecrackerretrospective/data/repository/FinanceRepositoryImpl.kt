@@ -14,11 +14,12 @@ class FinanceRepositoryImpl(private val database: AppDatabase) : FinanceReposito
         return database.walletDao().getById(id)
     }
 
-    override fun saveWallet(wallet: Wallet) {
-        database.walletDao().insert(wallet)
+    override fun saveWallet(wallet: Wallet): Long {
+        return database.walletDao().insert(wallet)
     }
 
-    override fun updateWallet(wallet: Wallet) {
+    override fun updateWallet(wallet: Wallet): Long {
         database.walletDao().update(wallet)
+        return wallet.id!!
     }
 }

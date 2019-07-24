@@ -5,12 +5,13 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import ru.s4nchez.financecrackerretrospective.domain.FinanceInteractor
 import ru.s4nchez.financecrackerretrospective.presentation.common.WalletCreationScreen
+import ru.s4nchez.financecrackerretrospective.presentation.common.WalletFragmentScreen
 import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.ListItem
 import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate.AddWalletDelegate
 import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate.WalletDelegate
 import ru.terrakok.cicerone.Router
 
-class WalletViewModel(
+class MainScreenViewModel(
         financeInteractor: FinanceInteractor,
         private val router: Router
 ) : ViewModel() {
@@ -23,8 +24,8 @@ class WalletViewModel(
         list
     }
 
-    fun openWalletScreen() {
-
+    fun openWalletScreen(walletId: Long) {
+        router.navigateTo(WalletFragmentScreen(walletId))
     }
 
     fun openWalletCreationScreen() {

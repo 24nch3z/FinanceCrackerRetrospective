@@ -13,14 +13,25 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">#FFF</item>
         <item name="android:textStyle">bold</item>
         <item name="strokeWidth">@dimen/material_button_stroke_width</item>
         <item name="cornerRadius">@dimen/material_button_corner_radius</item>
         <item name="backgroundTint">@color/full_opacity</item>
         <item name="android:gravity">center</item>
-        <item name="strokeColor">@color/colorPrimary</item>
-        <item name="rippleColor">@color/colorAccent</item>
+        <item name="strokeColor">#FFF</item>
+        <item name="rippleColor">#FFF</item>
+    </style>
+
+    <style name="RadioButtonStyle" parent="@style/Theme.MaterialComponents">
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="colorControlNormal">#FFF</item>
+    </style>
+
+    <style name="EditText" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlNormal">#FFF</item>
     </style>
 
 </resources>

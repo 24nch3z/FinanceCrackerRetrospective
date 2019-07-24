@@ -3,7 +3,7 @@ package ru.s4nchez.financecrackerretrospective.presentation.common
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ru.s4nchez.financecrackerretrospective.R
-import ru.s4nchez.financecrackerretrospective.utils.application
+import ru.s4nchez.financecrackerretrospective.utils.app
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        application().componentManager.rootComponent.inject(this)
+        app.componentManager.rootComponent.inject(this)
 
         if (savedInstanceState == null) {
             router.newRootScreen(MainListScreen())
@@ -37,11 +37,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        application().getNavigatorHolder().setNavigator(navigator)
+        app.getNavigatorHolder().setNavigator(navigator)
     }
 
     override fun onStop() {
-        application().getNavigatorHolder().removeNavigator()
+        app.getNavigatorHolder().removeNavigator()
         super.onStop()
     }
 }

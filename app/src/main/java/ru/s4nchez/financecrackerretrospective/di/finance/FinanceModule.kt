@@ -9,7 +9,8 @@ import ru.s4nchez.financecrackerretrospective.di.FeatureScope
 import ru.s4nchez.financecrackerretrospective.domain.FinanceInteractor
 import ru.s4nchez.financecrackerretrospective.domain.FinanceInteractorImpl
 import ru.s4nchez.financecrackerretrospective.executor.Executor
-import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.WalletViewModelFactory
+import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.MainScreenViewModelFactory
+import ru.s4nchez.financecrackerretrospective.presentation.wallet.viewmodel.WalletViewModelFactory
 import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.viewmodel.WalletCreationViewModelFactory
 import ru.terrakok.cicerone.Router
 
@@ -29,10 +30,10 @@ class FinanceModule {
     }
 
     @Provides
-    fun provideWalletViewModelFactory(
+    fun provideMainScreenViewModelFactory(
             financeInteractor: FinanceInteractor,
-            router: Router): WalletViewModelFactory {
-        return WalletViewModelFactory(financeInteractor, router)
+            router: Router): MainScreenViewModelFactory {
+        return MainScreenViewModelFactory(financeInteractor, router)
     }
 
     @Provides
@@ -40,5 +41,12 @@ class FinanceModule {
             financeInteractor: FinanceInteractor,
             router: Router): WalletCreationViewModelFactory {
         return WalletCreationViewModelFactory(financeInteractor, router)
+    }
+
+    @Provides
+    fun provideWalletViewModelFactory(
+            financeInteractor: FinanceInteractor,
+            router: Router): WalletViewModelFactory {
+        return WalletViewModelFactory(financeInteractor, router)
     }
 }

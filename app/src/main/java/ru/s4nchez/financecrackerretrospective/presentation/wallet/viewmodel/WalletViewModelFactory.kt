@@ -1,4 +1,4 @@
-package ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel
+package ru.s4nchez.financecrackerretrospective.presentation.wallet.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

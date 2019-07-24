@@ -7,8 +7,8 @@ import androidx.room.Update
 interface BaseDao<T> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(vararg item: T)
+    fun insert(item: T): Long
 
     @Update
-    fun update(vararg item: T)
+    fun update(item: T)
 }

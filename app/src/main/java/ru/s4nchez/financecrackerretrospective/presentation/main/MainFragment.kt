@@ -9,23 +9,23 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.screen_main.*
-import ru.s4nchez.financecrackerretrospective.MyApp
 import ru.s4nchez.financecrackerretrospective.R
 import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.ClickListener
 import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.DiffAdapter
 import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.ListItem
 import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate.AddWalletDelegate
 import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate.WalletDelegate
-import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.WalletViewModel
-import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.WalletViewModelFactory
+import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.MainScreenViewModel
+import ru.s4nchez.financecrackerretrospective.presentation.main.viewmodel.MainScreenViewModelFactory
+import ru.s4nchez.financecrackerretrospective.utils.app
 import javax.inject.Inject
 
 class MainFragment : Fragment(), ClickListener {
 
     @Inject
-    lateinit var walletViewModelFactory: WalletViewModelFactory
+    lateinit var mainScreenViewModelFactory: MainScreenViewModelFactory
 
-    private lateinit var viewModel: WalletViewModel
+    private lateinit var viewModel: MainScreenViewModel
 
     private val adapter by lazy {
         DiffAdapter(listOf(
@@ -36,7 +36,7 @@ class MainFragment : Fragment(), ClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity?.application as MyApp).componentManager.buildFinanceComponent().inject(this)
+        app.componentManager.buildFinanceComponent().inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,20 +50,20 @@ class MainFragment : Fragment(), ClickListener {
                 LinearLayoutManager.HORIZONTAL, false)
         wallets_recycler_view.adapter = adapter
 
-        viewModel = ViewModelProviders.of(this, walletViewModelFactory)
-                .get(WalletViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, mainScreenViewModelFactory)
+                .get(MainScreenViewModel::class.java)
 
         viewModel.items.observe(this, Observer { adapter.items = it })
     }
 
     override fun onDestroy() {
-        (activity?.application as MyApp).componentManager.destroyFinanceComponent()
+        app.componentManager.destroyFinanceComponent()
         super.onDestroy()
     }
 
     override fun onClick(listItem: ListItem, tag: String?) {
         when (listItem) {
-            is WalletDelegate.Model -> viewModel.openWalletScreen()
+            is WalletDelegate.Model -> viewModel.openWalletScreen(listItem.wallet.id!!)
             is AddWalletDelegate.Model -> viewModel.openWalletCreationScreen()
         }
     }
