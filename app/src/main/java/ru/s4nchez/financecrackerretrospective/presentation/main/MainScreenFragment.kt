@@ -29,7 +29,7 @@ class MainScreenFragment : Fragment(), ClickListener {
 
     private lateinit var viewModel: MainScreenViewModel
 
-    private val adapter by lazy {
+    private val walletsAdapter by lazy {
         DiffAdapter(listOf(
                 WalletDelegate(this),
                 AddWalletDelegate(this)
@@ -48,15 +48,21 @@ class MainScreenFragment : Fragment(), ClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        wallets_recycler_view.layoutManager = LinearLayoutManager(activity,
-                LinearLayoutManager.HORIZONTAL, false)
-        wallets_recycler_view.adapter = adapter
-        wallets_recycler_view.addItemDecoration(CardWidthItemDecoration(getCardWidth()))
+        with(wallets_recycler_view) {
+            layoutManager = LinearLayoutManager(activity,
+                    LinearLayoutManager.HORIZONTAL, false)
+            addItemDecoration(CardWidthItemDecoration(
+                    screenWidth(activity!!),
+                    dpToPx(activity!!, 16.0f).toInt().times(2), // Отступы у CardView,
+                    dpToPx(activity!!, 32.0f).toInt()
+            ))
+            adapter = walletsAdapter
+        }
 
         viewModel = ViewModelProviders.of(this, mainScreenViewModelFactory)
                 .get(MainScreenViewModel::class.java)
 
-        viewModel.items.observe(this, Observer { adapter.items = it })
+        viewModel.items.observe(this, Observer { walletsAdapter.items = it })
     }
 
     override fun onDestroy() {
@@ -69,11 +75,5 @@ class MainScreenFragment : Fragment(), ClickListener {
             is WalletDelegate.Model -> viewModel.openWalletScreen(listItem.wallet.id!!)
             is AddWalletDelegate.Model -> viewModel.openWalletCreationScreen()
         }
-    }
-
-    private fun getCardWidth(): Int {
-        return screenWidth(activity!!) -
-                dpToPx(activity!!, 16.0f).toInt().times(2) - // Отступы у CardView
-                dpToPx(activity!!, 32.0f).toInt()
     }
 }
