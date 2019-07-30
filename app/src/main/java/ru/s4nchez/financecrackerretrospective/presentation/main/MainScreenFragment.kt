@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.screen_main.*
 import ru.s4nchez.financecrackerretrospective.R
-import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.ClickListener
+import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.RecyclerItemClickListener
 import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.DiffAdapter
 import ru.s4nchez.financecrackerretrospective.presentation.common.adapter.ListItem
 import ru.s4nchez.financecrackerretrospective.presentation.main.adapter.delegate.AddWalletDelegate
@@ -22,7 +22,7 @@ import ru.s4nchez.financecrackerretrospective.utils.dpToPx
 import ru.s4nchez.financecrackerretrospective.utils.screenWidth
 import javax.inject.Inject
 
-class MainScreenFragment : Fragment(), ClickListener {
+class MainScreenFragment : Fragment(), RecyclerItemClickListener {
 
     @Inject
     lateinit var mainScreenViewModelFactory: MainScreenViewModelFactory

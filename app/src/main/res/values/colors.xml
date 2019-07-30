@@ -5,6 +5,7 @@
     <color name="colorAccent">#d81b60</color>
 
     <color name="full_opacity">#00000000</color>
+    <color name="screen_background">@color/colorPrimaryDark</color>
 
     <color name="background_gradient_start">#ee380066</color>
     <color name="background_gradient_end">#55540099</color>
@@ -14,4 +15,7 @@
     <color name="wallet_add_wallet_icon">#9fff</color>
 
     <color name="wallet_screen_delete_icon">#fff</color>
+
+    <color name="item_transaction_background_even">@color/colorPrimaryDark</color>
+    <color name="item_transaction_background_odd">@color/colorPrimary</color>
 </resources>

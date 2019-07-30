@@ -13,4 +13,10 @@
     <string name="currency_symbol_format_usd">$%1$s</string>
 
     <string name="wallet_creation_error">Заполните поля</string>
+
+    <string name="transaction_creation_type_label">Укажите тип транзакции</string>
+    <string name="transaction_creation_type_minus">Потратил</string>
+    <string name="transaction_creation_type_plus">Заработал</string>
+    <string name="transaction_creation_description_hint">Описание</string>
+    <string name="transaction_creation_value_hint">Сумма</string>
 </resources>

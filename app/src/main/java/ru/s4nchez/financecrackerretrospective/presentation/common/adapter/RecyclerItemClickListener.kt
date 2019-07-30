@@ -1,5 +1,5 @@
 package ru.s4nchez.financecrackerretrospective.presentation.common.adapter
 
-interface ClickListener {
+interface RecyclerItemClickListener {
     fun onClick(listItem: ListItem, tag: String? = null)
 }

@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.screeen_wallet_creation.*
+import kotlinx.android.synthetic.main.screen_wallet_creation.*
 import ru.s4nchez.financecrackerretrospective.R
 import ru.s4nchez.financecrackerretrospective.data.store.CurrencyStore
 import ru.s4nchez.financecrackerretrospective.presentation.walletcreation.adapter.CurrencyAdapter
@@ -57,7 +57,7 @@ class WalletCreationFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.screeen_wallet_creation, container, false)
+        return inflater.inflate(R.layout.screen_wallet_creation, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

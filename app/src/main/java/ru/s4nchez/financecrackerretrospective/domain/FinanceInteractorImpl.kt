@@ -2,6 +2,8 @@ package ru.s4nchez.financecrackerretrospective.domain
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.s4nchez.financecrackerretrospective.data.model.Category
+import ru.s4nchez.financecrackerretrospective.data.model.Transaction
 import ru.s4nchez.financecrackerretrospective.data.model.Wallet
 import ru.s4nchez.financecrackerretrospective.data.repository.FinanceRepository
 import ru.s4nchez.financecrackerretrospective.executor.Executor
@@ -41,5 +43,26 @@ class FinanceInteractorImpl(
         executor.run {
             financeRepository.deleteWallet(id)
         }
+    }
+
+    override fun getCategories(): LiveData<List<Category>> {
+        return financeRepository.getCategories()
+    }
+
+    override fun getCategory(id: Long): Category {
+        return financeRepository.getCategory(id)
+    }
+
+    override fun getTransactions(walletId: Long): LiveData<List<Transaction>> {
+        return financeRepository.getTransactions(walletId)
+    }
+
+    override fun saveTransaction(id: Long?, value: Double, description: String, categoryId: Long, walletId: Long, date: Long): LiveData<Long> {
+        val liveData = MutableLiveData<Long>()
+        executor.run {
+            liveData.postValue(financeRepository.saveTransaction(Transaction(id, value,
+                    description, categoryId, walletId, date)))
+        }
+        return liveData
     }
 }

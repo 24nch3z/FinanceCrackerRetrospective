@@ -9,8 +9,11 @@ data class Category(
 
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id")
-        val id: Long,
+        val id: Long? = null,
 
         @ColumnInfo(name = "name")
-        val name: String
+        val name: String,
+
+        @ColumnInfo(name = "isDefault")
+        val isDefault: Boolean
 )

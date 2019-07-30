@@ -9,16 +9,13 @@ data class Transaction(
 
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id")
-        val id: Long,
-
-        @ColumnInfo(name = "name")
-        val name: String,
-
-        @ColumnInfo(name = "description")
-        val description: String,
+        val id: Long?,
 
         @ColumnInfo(name = "value")
         val value: Double,
+
+        @ColumnInfo(name = "description")
+        val description: String,
 
         @ColumnInfo(name = "categoryId")
         val categoryId: Long,
